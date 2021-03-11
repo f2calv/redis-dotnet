@@ -32,7 +32,7 @@ namespace CasCap.Services
 
             // Asynchronous handler
             _redisCacheSvc._subscriber.Subscribe("messages").OnMessage(async channelMessage => {
-                //await Task.Delay(1000);
+                await Task.Delay(0);
                 _logger.LogInformation("Message received at {utcNow}, {message}", DateTime.UtcNow, (string)channelMessage.Message);
             });
         }
