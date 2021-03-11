@@ -17,7 +17,7 @@ try
         .ConfigureServices((hostContext, services) =>
         {
             services.AddSingleton<RedisCacheService>();
-            services.AddHostedService<StreamingServerService>();
+            services.AddHostedService<RedisPublisherService>();
         })
         .UseSerilog()
         .Build().Run();

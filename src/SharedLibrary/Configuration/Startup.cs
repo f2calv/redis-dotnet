@@ -22,7 +22,7 @@ namespace CasCap.Configuration
                     .ConfigureServices((hostContext, services) =>
                     {
                         services.AddSingleton<RedisCacheService>();
-                        services.AddHostedService<StreamingClientService>();
+                        services.AddHostedService<RedisSubscriberService>();
                     })
                     .UseSerilog()
                     .Build().Run();

@@ -5,12 +5,12 @@ using System.Threading;
 using System.Threading.Tasks;
 namespace CasCap.Services
 {
-    public class StreamingServerService : BackgroundService
+    public class RedisPublisherService : BackgroundService
     {
-        readonly ILogger<StreamingServerService> _logger;
+        readonly ILogger<RedisPublisherService> _logger;
         readonly RedisCacheService _redisCacheSvc;
 
-        public StreamingServerService(ILogger<StreamingServerService> logger, RedisCacheService redisCacheSvc)
+        public RedisPublisherService(ILogger<RedisPublisherService> logger, RedisCacheService redisCacheSvc)
         {
             _logger = logger;
             _redisCacheSvc = redisCacheSvc;
