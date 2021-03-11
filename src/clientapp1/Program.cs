@@ -1,5 +1,5 @@
-using CasCap;
-using Microsoft.AspNetCore.Hosting;
+using CasCap.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System;
@@ -14,9 +14,10 @@ try
 {
     Log.Information("Starting {AppName}", AppDomain.CurrentDomain.FriendlyName);
     Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(webBuilder =>
+        .ConfigureServices((hostContext, services) =>
         {
-            webBuilder.UseStartup<Startup>();
+            services.AddSingleton<RedisCacheService>();
+            services.AddHostedService<StreamingClientService>();
         })
         .UseSerilog()
         .Build().Run();

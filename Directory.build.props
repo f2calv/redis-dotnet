@@ -4,6 +4,7 @@
     <LangVersion>9.0</LangVersion>
     <!--nullable we enable on a per project basis-->
     <!--<Nullable>enable</Nullable>-->
+    <UserSecretsId>dotnet-clientapp1-12CAD65D-6E81-47A2-9769-94F84FD207FD</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup>
