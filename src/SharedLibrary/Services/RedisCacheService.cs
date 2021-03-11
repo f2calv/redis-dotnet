@@ -27,7 +27,7 @@ namespace CasCap.Services
 
         ConnectionMultiplexer Connection { get { return LazyConnection.Value; } }
 
-        IDatabase _redis { get { return Connection.GetDatabase(); } }
+        public IDatabase _database { get { return Connection.GetDatabase(); } }
 
         public ISubscriber _subscriber { get { return Connection.GetSubscriber(); } }
 
@@ -36,24 +36,24 @@ namespace CasCap.Services
         public bool Set<T>(string key, T value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)
         {
             _logger.LogTrace("Attempting to set redis cache key '{key}' to value '{value}' (expiry is {expiry})", key, value, expiry);
-            var result = _redis.StringSet(key, value?.ToJSON(), expiry, flags: flags);
+            var result = _database.StringSet(key, value?.ToJSON(), expiry, flags: flags);
             return result;
         }
 
         public async Task<bool> SetAsync<T>(string key, T value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)
         {
             _logger.LogTrace("Attempting to set redis cache key '{key}' to value '{value}' (expiry is {expiry})", key, value, expiry);
-            var result = await _redis.StringSetAsync(key, value?.ToJSON(), expiry, flags: flags);
+            var result = await _database.StringSetAsync(key, value?.ToJSON(), expiry, flags: flags);
             return result;
         }
 
-        public byte[] Get(string key) => _redis.StringGet(key);
+        public byte[] Get(string key) => _database.StringGet(key);
 
-        public async Task<byte[]> GetAsync(string key) => await _redis.StringGetAsync(key);
+        public async Task<byte[]> GetAsync(string key) => await _database.StringGetAsync(key);
 
         public T? Get<T>(string key)
         {
-            var val = _redis.StringGet(key);
+            var val = _database.StringGet(key);
             if (val.HasValue)
                 return ((string)val).FromJSON<T>();
             else
@@ -62,7 +62,7 @@ namespace CasCap.Services
 
         public async Task<T?> GetAsync<T>(string key)
         {
-            var val = await _redis.StringGetAsync(key);
+            var val = await _database.StringGetAsync(key);
             if (val.HasValue)
                 return ((string)val).FromJSON<T>();
             else
@@ -73,19 +73,19 @@ namespace CasCap.Services
         {
             _logger.LogTrace("Attempting to set redis cache key '{key}' to value '{value}' (expiry is {expiry})", key, value, expiry);
             //note: String is a Redis string type, not exactly a .NET string type!
-            var result = _redis.StringSet(key, value, expiry, flags: flags);
+            var result = _database.StringSet(key, value, expiry, flags: flags);
             return result;
         }
 
         async Task<bool> SetAsync(string key, byte[] value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)
         {
-            var result = await _redis.StringSetAsync(key, value, expiry, flags: flags);
+            var result = await _database.StringSetAsync(key, value, expiry, flags: flags);
             return result;
         }
 
         string? GetString(string key)
         {
-            var val = _redis.StringGet(key);
+            var val = _database.StringGet(key);
             if (val.HasValue)
                 return (string)val;
             else
@@ -94,7 +94,7 @@ namespace CasCap.Services
 
         byte[]? GetBytes(string key)
         {
-            var val = _redis.StringGet(key);
+            var val = _database.StringGet(key);
             if (val.HasValue)
                 return (byte[])val;
             else
