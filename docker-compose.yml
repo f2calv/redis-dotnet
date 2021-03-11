@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  # webapi:
+  #   container_name: webapi
+  #   build:
+  #     context: .
+  #     dockerfile: src/webapi/Dockerfile
+  #   depends_on:
+  #     - redis-svc
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+  #     - DOTNET_RUNNING_IN_COMPOSE=${DOTNET_RUNNING_IN_COMPOSE}
+
+  # seq-svc:
+  #   image: datalust/seq
+  #   container_name: seq-svc
+  #   restart: always
+  #   ports:
+  #     - 5342:80 #web ui
+  #     - 5341:5341 #ingestion
+  #   volumes:
+  #     - /c/temp/_DockerCompose/seq/data/:/data/
+  #   environment:
+  #     - ACCEPT_EULA=Y
+  #     - BASE_URI=http://seq-svc:5342
+
+  redis-svc:
+    container_name: redis-svc
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    volumes:
+      #- ./_DockerCompose/redis:/data #fails with docker desktop 2.2 when running from inside users directory?
+      - /mnt/c/temp/_DockerCompose/redis:/data
+    entrypoint: redis-server --appendonly yes
+
+  p3x:
+    container_name: redisui
+    image: patrikx3/p3x-redis-ui
+    ports:
+      - 7843:7843
+    volumes:
+      # here you can set your own /home/user/p3x-redis-ui-settings folder
+      #- ./_DockerCompose/p3x-redis-ui-settings:/settings #fails with docker desktop 2.2 when running from inside users directory?
+      - /mnt/c/temp/_DockerCompose/p3x-redis-ui-settings:/settings
+    depends_on:
+      - redis-svc
