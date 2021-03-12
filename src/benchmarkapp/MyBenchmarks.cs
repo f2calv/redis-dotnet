@@ -11,14 +11,12 @@ namespace CasCap
 {
     //https://benchmarkdotnet.org/articles/overview.html
     //[ClrJob, CoreJob]
-    [/*SimpleJob(RuntimeMoniker.Net48), */SimpleJob(RuntimeMoniker.CoreRt50)]
-    [MemoryDiagnoser]
+    //[SimpleJob(RuntimeMoniker.CoreRt31, warmupCount: 5, targetCount: 5, baseline: true)]
+    [SimpleJob(RuntimeMoniker.CoreRt50, warmupCount: 5, targetCount: 5)]
+    //[MemoryDiagnoser]
     public class MyBenchmarks
     {
-        //[InProcess]
-        RedisCacheService _redisCacheSvc;
-
-        [Params(10_000)]
+        [Params(1_000)]
         public int threshold { get; set; }
 
         [Params("GBPUSD")]
@@ -26,13 +24,15 @@ namespace CasCap
 
         public List<Tick> ticks { get; set; } = new List<Tick>();
 
+        //[InProcess]
+        ServiceProvider _serviceProvider;
+
         [GlobalSetup]
         public void Setup()
         {
             var services = new ServiceCollection().AddLogging();
             services.AddSingleton<RedisCacheService>();
-            var _serviceProvider = services.BuildServiceProvider();
-            _redisCacheSvc = _serviceProvider.GetRequiredService<RedisCacheService>();
+            _serviceProvider = services.BuildServiceProvider();
 
             var r = new Random();
             var l = new List<Tick>(threshold);
@@ -50,30 +50,34 @@ namespace CasCap
         [Benchmark(Baseline = true)]
         public void StreamAdd()
         {
-            //foreach (var tick in ticks)
-            //    _ = _redisCacheSvc.db.StreamAdd(Globals.streamKey, tick.Symbol, tick.Bid);
+            var _redisCacheSvc = _serviceProvider.GetRequiredService<RedisCacheService>();
+            foreach (var tick in ticks)
+                _ = _redisCacheSvc.db.StreamAdd(Globals.streamKey, tick.Symbol, tick.Bid);
         }
 
-        //[Benchmark]
-        //public void StreamAddFireAndForget()
-        //{
-        //    foreach (var tick in ticks)
-        //        _ = _redisCacheSvc.db.StreamAdd(Globals.streamKey, tick.Symbol, tick.Bid, flags: CommandFlags.FireAndForget);
-        //}
+        [Benchmark]
+        public void StreamAddFireAndForget()
+        {
+            var _redisCacheSvc = _serviceProvider.GetRequiredService<RedisCacheService>();
+            foreach (var tick in ticks)
+                _ = _redisCacheSvc.db.StreamAdd(Globals.streamKey, tick.Symbol, tick.Bid, flags: CommandFlags.FireAndForget);
+        }
 
-        //[Benchmark]
-        //public async Task StreamAddAsync()
-        //{
-        //    foreach (var tick in ticks)
-        //        _ = await _redisCacheSvc.db.StreamAddAsync(Globals.streamKey, tick.Symbol, tick.Bid);
-        //}
+        [Benchmark]
+        public async Task StreamAddAsync()
+        {
+            var _redisCacheSvc = _serviceProvider.GetRequiredService<RedisCacheService>();
+            foreach (var tick in ticks)
+                _ = await _redisCacheSvc.db.StreamAddAsync(Globals.streamKey, tick.Symbol, tick.Bid);
+        }
 
-        //[Benchmark]
-        //public async Task StreamAddAsyncFireAndForget()
-        //{
-        //    foreach (var tick in ticks)
-        //        _ = await _redisCacheSvc.db.StreamAddAsync(Globals.streamKey, tick.Symbol, tick.Bid, flags: CommandFlags.FireAndForget);
-        //}
+        [Benchmark]
+        public async Task StreamAddAsyncFireAndForget()
+        {
+            var _redisCacheSvc = _serviceProvider.GetRequiredService<RedisCacheService>();
+            foreach (var tick in ticks)
+                _ = await _redisCacheSvc.db.StreamAddAsync(Globals.streamKey, tick.Symbol, tick.Bid, flags: CommandFlags.FireAndForget);
+        }
 
         [GlobalCleanup]
         public void Cleanup()
