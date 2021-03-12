@@ -7,7 +7,7 @@ namespace CasCap.Tests
 {
     public class CacheTests
     {
-        readonly RedisCacheService _redisSvc;
+        readonly RedisCacheService _redisCacheSvc;
 
         public CacheTests()
         {
@@ -20,8 +20,8 @@ namespace CasCap.Tests
                 //.AddSingleton<IConfiguration>(configuration)
                 .AddLogging(logging =>
                 {
-                //    logging.AddDebug();
-                //    ApplicationLogging.LoggerFactory = logging.Services.BuildServiceProvider().GetRequiredService<ILoggerFactory>();
+                    //    logging.AddDebug();
+                    //    ApplicationLogging.LoggerFactory = logging.Services.BuildServiceProvider().GetRequiredService<ILoggerFactory>();
                 })
                 ;
 
@@ -35,18 +35,18 @@ namespace CasCap.Tests
 
             //assign services to be tested
             var _serviceProvider = services.BuildServiceProvider();
-            _redisSvc = _serviceProvider.GetRequiredService<RedisCacheService>();
+            _redisCacheSvc = _serviceProvider.GetRequiredService<RedisCacheService>();
         }
 
-        //[Fact]
-        //public void AddAndRetrieve()
-        //{
-        //    var key = $"mykey{Guid.NewGuid()}";
-        //    var value = $"hello world! {DateTime.UtcNow}";
-        //    _redisSvc.Set(key, value);
-
-        //    var retrieve = _redisSvc.GetString(key);
-        //    Assert.Equal(value, retrieve);
-        //}
+        [Fact(Skip = "not finished")]
+        public void AddAndRetrieve()
+        {
+            var key = $"mykey{Guid.NewGuid()}";
+            var value = $"hello world! {DateTime.UtcNow}";
+            _redisCacheSvc.Set(key, value);
+            throw new NotImplementedException("unfinished");
+            //var retrieve = _redisCacheSvc.GetString(key);
+            //Assert.Equal(value, retrieve);
+        }
     }
 }

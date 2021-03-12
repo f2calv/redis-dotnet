@@ -61,8 +61,7 @@ namespace CasCap.Services
                 if (counter % 1_000_000 == 0)
                     break;
 
-                //todo: perf test of the above
-                //todo: pass a strong-typed object
+                //todo: pass a strong-typed Tick object
                 void Test()
                 {
                     while (!stoppingToken.IsCancellationRequested)
