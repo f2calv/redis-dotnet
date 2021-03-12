@@ -47,10 +47,10 @@ namespace CasCap.Tests
         public async Task dtString(string input)
         {
             var key = $"datatypes:{DateTime.UtcNow:yyyy-MM-dd}:string";
-            await _redisCacheSvc.db.KeyDeleteAsync(key);
+            _ = await _redisCacheSvc.db.KeyDeleteAsync(key);
 
             var value = $"{input} {DateTime.UtcNow}";
-            await _redisCacheSvc.db.StringSetAsync(key, value);
+            _ = await _redisCacheSvc.db.StringSetAsync(key, value);
             var result = await _redisCacheSvc.db.StringGetAsync(key);
             Assert.Equal(value, result);
         }
@@ -65,11 +65,11 @@ namespace CasCap.Tests
         public async Task dtStringJson(string input)
         {
             var key = $"datatypes:{DateTime.UtcNow:yyyy-MM-dd}:stringjson";
-            await _redisCacheSvc.db.KeyDeleteAsync(key);
+            _ = await _redisCacheSvc.db.KeyDeleteAsync(key);
 
             var objOut = new MyObj($"{input} {DateTime.UtcNow}");
             var jsonOut = objOut.ToJSON();
-            await _redisCacheSvc.db.StringSetAsync(key, jsonOut);
+            _ = await _redisCacheSvc.db.StringSetAsync(key, jsonOut);
             var result = await _redisCacheSvc.db.StringGetAsync(key);
             Assert.Equal(jsonOut, result);
             Assert.Equal(objOut, result.FromJSON<MyObj>());
@@ -85,14 +85,39 @@ namespace CasCap.Tests
         public async Task dtStringMsgPack(string input)
         {
             var key = $"datatypes:{DateTime.UtcNow:yyyy-MM-dd}:stringmessagepack";
-            await _redisCacheSvc.db.KeyDeleteAsync(key);
+            _ = await _redisCacheSvc.db.KeyDeleteAsync(key);
 
             var objOut = new MyObj($"{input} {DateTime.UtcNow}");
             var jsonOut = objOut.ToMessagePack();
-            await _redisCacheSvc.db.StringSetAsync(key, jsonOut);
+            _ = await _redisCacheSvc.db.StringSetAsync(key, jsonOut);
             var result = await _redisCacheSvc.db.StringGetAsync(key);
             Assert.Equal(jsonOut.Length, result.Length());
             Assert.Equal(objOut, result.FromMessagePack<MyObj>());
+        }
+
+        [Theory]
+        [InlineData("hello", "new", "world!")]
+        [InlineData("apples", "oranges", "bananas!")]
+        public async Task dtList(string a, string b, string c)
+        {
+            var key = $"datatypes:{DateTime.UtcNow:yyyy-MM-dd}:list";
+            _ = await _redisCacheSvc.db.KeyDeleteAsync(key);
+
+            //var objOut = new MyObj($"{input} {DateTime.UtcNow}");
+            //var jsonOut = objOut.ToMessagePack();
+            _ = await _redisCacheSvc.db.ListLeftPushAsync(key,
+                new StackExchange.Redis.RedisValue[] {
+                    new StackExchange.Redis.RedisValue(a),
+                    new StackExchange.Redis.RedisValue(b),
+                    new StackExchange.Redis.RedisValue(c)
+                },
+                StackExchange.Redis.CommandFlags.FireAndForget);
+            var resulta = await _redisCacheSvc.db.ListRightPopAsync(key);
+            Assert.Equal(resulta, a);
+            var resultb = await _redisCacheSvc.db.ListLeftPopAsync(key);
+            Assert.Equal(resultb, c);//swapped
+            var resultc = await _redisCacheSvc.db.ListGetByIndexAsync(key, 0);
+            Assert.Equal(resultc, b);//swapped!
         }
     }
 }
