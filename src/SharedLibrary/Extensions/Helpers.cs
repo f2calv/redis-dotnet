@@ -1,5 +1,6 @@
 ﻿using MessagePack;
 using Newtonsoft.Json;
+using StackExchange.Redis;
 namespace CasCap.Extensions
 {
     public static class Helpers
@@ -21,8 +22,12 @@ namespace CasCap.Extensions
             }
         }
 
+        public static T FromJSON<T>(this RedisValue result) => FromJSON<T>(result.ToString());
+
         public static byte[] ToMessagePack<T>(this T data) => MessagePackSerializer.Serialize(data);
 
         public static T FromMessagePack<T>(this byte[] bytes) => MessagePackSerializer.Deserialize<T>(bytes);
+
+        public static T FromMessagePack<T>(this RedisValue result) => MessagePackSerializer.Deserialize<T>((byte[])result);
     }
 }
