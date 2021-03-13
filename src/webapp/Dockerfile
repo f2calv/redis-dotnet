@@ -6,7 +6,7 @@ COPY ["src/SharedLibrary/SharedLibrary.csproj", "src/SharedLibrary/"]
 RUN dotnet restore "src/webapp/webapp.csproj"
 COPY . .
 
-RUN dotnet publish "/src/src/webapp/webapp.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/webapp/webapp.csproj" -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app

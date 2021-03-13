@@ -6,7 +6,7 @@ COPY ["src/SharedLibrary/SharedLibrary.csproj", "src/SharedLibrary/"]
 RUN dotnet restore "src/webapi/webapi.csproj"
 COPY . .
 
-RUN dotnet publish "/src/src/webapi/webapi.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/webapi/webapi.csproj" -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /app

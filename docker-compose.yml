@@ -2,46 +2,30 @@ version: "3.8"
 
 services:
   # webapi:
-  #   container_name: webapi
   #   build:
   #     context: .
   #     dockerfile: src/webapi/Dockerfile
   #   ports:
   #     - 8080:5000 #web ui
   #   depends_on:
-  #     - redis-svc
+  #     - redis
   #   environment:
   #     - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
   #     - DOTNET_RUNNING_IN_COMPOSE=${DOTNET_RUNNING_IN_COMPOSE}
 
   # webapp:
-  #   container_name: webapp
   #   build:
   #     context: .
   #     dockerfile: src/webapp/Dockerfile
   #   ports:
   #     - 8081:5000 #web ui
   #   depends_on:
-  #     - redis-svc
+  #     - redis
   #   environment:
   #     - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
   #     - DOTNET_RUNNING_IN_COMPOSE=${DOTNET_RUNNING_IN_COMPOSE}
 
-  # seq-svc:
-  #   image: datalust/seq
-  #   container_name: seq-svc
-  #   restart: always
-  #   ports:
-  #     - 5342:80 #web ui
-  #     - 5341:5341 #ingestion
-  #   volumes:
-  #     - ./.docker-compose/seq:/data
-  #   environment:
-  #     - ACCEPT_EULA=Y
-  #     - BASE_URI=http://seq-svc:5342
-
-  redis-svc:
-    container_name: redis-svc
+  redis:
     image: redis
     #image: redis:alpine
     #image: bitnami/redis
@@ -55,7 +39,6 @@ services:
     restart: always
 
   p3x:
-    container_name: redisui
     image: patrikx3/p3x-redis-ui
     ports:
       - 7843:7843
@@ -63,4 +46,4 @@ services:
       - ./.docker-compose/p3x-redis-ui-settings:/settings
     restart: always
     depends_on:
-      - redis-svc
+      - redis

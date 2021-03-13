@@ -12,7 +12,7 @@ namespace CasCap.Services
         public RedisCacheService(ILogger<RedisCacheService> logger)
         {
             _logger = logger;
-            configuration = ConfigurationOptions.Parse("localhost:6379");//or add hosts entry for redis-svc->127.0.0.1
+            configuration = ConfigurationOptions.Parse("localhost:6379");
             configuration.ConnectRetry = 20;
             configuration.ClientName = $"{AppDomain.CurrentDomain.FriendlyName}-{Environment.MachineName}";
             //configuration.AllowAdmin = true;
