@@ -20,20 +20,24 @@ services:
   #     - 5342:80 #web ui
   #     - 5341:5341 #ingestion
   #   volumes:
-  #     - /c/temp/_DockerCompose/seq/data/:/data/
+  #     - ./.docker-compose/seq:/data
   #   environment:
   #     - ACCEPT_EULA=Y
   #     - BASE_URI=http://seq-svc:5342
 
   redis-svc:
     container_name: redis-svc
-    image: redis:alpine
+    image: redis
+    #image: redis:alpine
+    #image: bitnami/redis
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--appendonly", "yes"]
+    #entrypoint: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
     ports:
       - 6379:6379
     volumes:
-      #- ./_DockerCompose/redis:/data #fails with docker desktop 2.2 when running from inside users directory?
-      - /mnt/c/temp/_DockerCompose/redis:/data
-    entrypoint: redis-server --appendonly yes
+      - ./.docker-compose/redis:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    restart: always
 
   p3x:
     container_name: redisui
@@ -41,8 +45,7 @@ services:
     ports:
       - 7843:7843
     volumes:
-      # here you can set your own /home/user/p3x-redis-ui-settings folder
-      #- ./_DockerCompose/p3x-redis-ui-settings:/settings #fails with docker desktop 2.2 when running from inside users directory?
-      - /mnt/c/temp/_DockerCompose/p3x-redis-ui-settings:/settings
+      - ./.docker-compose/p3x-redis-ui-settings:/settings
+    restart: always
     depends_on:
       - redis-svc
