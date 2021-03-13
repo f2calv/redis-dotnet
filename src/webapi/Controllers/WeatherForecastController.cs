@@ -1,4 +1,5 @@
-﻿using CasCap.Services;
+﻿using CasCap.Models;
+using CasCap.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -36,7 +37,7 @@ namespace CasCap.Controllers
             {
                 _logger.LogWarning("cache item with cache key {key} doesn't exist", key);
                 weather = GenerateWeather();
-                _redisCacheSvc.Set(key, weather);
+                _redisCacheSvc.Set(key, weather, TimeSpan.FromSeconds(10));//cache for n seconds
                 _logger.LogInformation("item added with cache key {key} and data {data}", key, weather);
             }
             else
@@ -55,16 +56,5 @@ namespace CasCap.Controllers
                 .ToArray();
             }
         }
-    }
-
-    public class WeatherForecast
-    {
-        public DateTime Date { get; set; }
-
-        public int TemperatureC { get; set; }
-
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-
-        public string Summary { get; set; }
     }
 }
