@@ -1,0 +1,35 @@
+#https://stackoverflow.com/questions/59105533/how-to-create-redis-cluster-in-docker-based-environment
+
+version: '3.7'
+
+services:
+  fix-redis-volume-ownership: # This service is to authorise redis-master with ownership permissions
+    image: bitnami/redis
+    user: root
+    command: chown -R 1001:1001 /bitnami
+    volumes:
+      - ./.docker-compose/bitnami-redis:/bitnami
+      - ./.docker-compose/bitnami-redis/redis.conf:/opt/bitnami/redis/conf/redis.conf
+
+  redis-master:
+    image: bitnami/redis
+    ports:
+      - 6329:6379
+    environment:
+      - REDIS_REPLICATION_MODE=master # Assigning the node as a master
+      - ALLOW_EMPTY_PASSWORD=yes # No password authentication required/ provide password if needed
+    volumes:
+      - ./.docker-compose/bitnami-redis:/bitnami # Redis master data volume
+      - ./.docker-compose/bitnami-redis/conf/redis.conf:/opt/bitnami/redis/conf/redis.conf # Redis master configuration volume
+
+  redis-replica:
+    image: bitnami/redis
+    ports:
+      - 6379 # No port is exposed 
+    depends_on:
+      - redis-master # will only start after the master has booted completely
+    environment:
+      - REDIS_REPLICATION_MODE=slave # Assigning the node as slave
+      - REDIS_MASTER_HOST=redis-master # Host for the slave node is the redis-master node
+      - REDIS_MASTER_PORT_NUMBER=6379 # Port number for local 
+      - ALLOW_EMPTY_PASSWORD=yes # No password required to connect to node

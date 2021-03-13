@@ -3,3 +3,4 @@ $env:ASPNETCORE_ENVIRONMENT = "Development"
 $env:DOTNET_RUNNING_IN_COMPOSE = $true
 
 docker-compose up --build --remove-orphans
+#docker-compose -f docker-compose.cluster.yml up
