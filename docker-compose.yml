@@ -6,6 +6,21 @@ services:
   #   build:
   #     context: .
   #     dockerfile: src/webapi/Dockerfile
+  #   ports:
+  #     - 8080:5000 #web ui
+  #   depends_on:
+  #     - redis-svc
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+  #     - DOTNET_RUNNING_IN_COMPOSE=${DOTNET_RUNNING_IN_COMPOSE}
+
+  # webapp:
+  #   container_name: webapp
+  #   build:
+  #     context: .
+  #     dockerfile: src/webapp/Dockerfile
+  #   ports:
+  #     - 8081:5000 #web ui
   #   depends_on:
   #     - redis-svc
   #   environment:
