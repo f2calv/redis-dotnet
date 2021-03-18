@@ -3,7 +3,9 @@ using CasCap.Models;
 using CasCap.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Xunit;
 namespace CasCap.Tests
@@ -118,6 +120,17 @@ namespace CasCap.Tests
             Assert.Equal(resultb, c);//swapped
             var resultc = await _redisCacheSvc.db.ListGetByIndexAsync(key, 0);
             Assert.Equal(resultc, b);//swapped!
+        }
+
+        [Fact]
+        public async Task dtHashSet_Exception()
+        {
+            await _redisCacheSvc.db.HashSetAsync("prefix:key", new HashEntry[] { new HashEntry("hashField", "abc") });
+            var before = await _redisCacheSvc.db.HashGetAsync("prefix:key", "hashField");
+            Assert.Equal("abc", before);
+            Func<Task> after = () => _redisCacheSvc.db.HashIncrementAsync("prefix:key", "hashField", 1);
+            var exception = await Assert.ThrowsAsync<RedisServerException>(after);
+            Debug.WriteLine(exception.Message);
         }
     }
 }

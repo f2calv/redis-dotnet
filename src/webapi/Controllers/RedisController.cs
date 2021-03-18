@@ -58,7 +58,7 @@ namespace CasCap.Controllers
                 },
                 flags: CommandFlags.FireAndForget);
             await _redisCacheSvc.db.HashIncrementAsync($"{prefix}:hash", "age", 2, flags: CommandFlags.FireAndForget);//add 2 to the age value
-            await _redisCacheSvc.db.HashIncrementAsync($"{prefix}:hash", "firstname", 1, flags: CommandFlags.FireAndForget);//add 1 to the name value
+            await _redisCacheSvc.db.HashIncrementAsync($"{prefix}:hash", "firstname", 1, flags: CommandFlags.FireAndForget);//add 1 to the name value - will fail but return no error due to FireAndForget!
 
             //other data types;
             //Bit arrays
