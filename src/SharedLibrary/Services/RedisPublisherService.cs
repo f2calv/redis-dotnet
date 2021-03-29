@@ -26,7 +26,7 @@ namespace CasCap.Services
                 {
                     var message = $"hello at {DateTime.UtcNow}";
                     _logger.LogInformation("Message sent at {utcNow}, {message}", DateTime.UtcNow, message);
-                    _redisCacheSvc._subscriber.Publish("messages", message);
+                    _redisCacheSvc.subscriber.Publish("messages", message);
                     await Task.Delay(1000, stoppingToken);
                 }
                 else

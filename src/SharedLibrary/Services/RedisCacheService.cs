@@ -30,9 +30,9 @@ namespace CasCap.Services
 
         public IDatabase db { get { return Connection.GetDatabase(); } }
 
-        public ISubscriber _subscriber { get { return Connection.GetSubscriber(); } }
+        public ISubscriber subscriber { get { return Connection.GetSubscriber(); } }
 
-        //IServer server { get { return Connection.GetServer(_configurationOptions.EndPoints[0]); } }
+        public IServer server { get { return Connection.GetServer(configuration.EndPoints[0]); } }
 
         public bool Set<T>(string key, T value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)
         {
