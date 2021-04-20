@@ -10,24 +10,29 @@ namespace CasCap.Services
     {
         readonly ILogger<RedisPublisherService> _logger;
         readonly RedisCacheService _redisCacheSvc;
+        public IPriceGeneratorService _priceGeneratorSvc;
 
-        public RedisPublisherService(ILogger<RedisPublisherService> logger, RedisCacheService redisCacheSvc)
+        public RedisPublisherService(ILogger<RedisPublisherService> logger, RedisCacheService redisCacheSvc, IPriceGeneratorService priceGeneratorSvc)
         {
             _logger = logger;
             _redisCacheSvc = redisCacheSvc;
+            _priceGeneratorSvc = priceGeneratorSvc;
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             var counter = 0L;
-            while (!stoppingToken.IsCancellationRequested)
+
+            await foreach (var price in _priceGeneratorSvc.GetPricesAsync(cancellationToken))
             {
+                if (cancellationToken.IsCancellationRequested)
+                    break;
                 if (false)
                 {
-                    var message = $"hello at {DateTime.UtcNow}";
-                    _logger.LogInformation("Message sent at {utcNow}, {message}", DateTime.UtcNow, message);
+                    var message = $"{price.symbol} is {price.bid}/{price.offer} at {price.date}";
+                    _logger.LogInformation("latest {symol} price sent at {utcNow}, {message}", price.symbol, DateTime.UtcNow, message);
                     _redisCacheSvc.subscriber.Publish("messages", message);
-                    await Task.Delay(1000, stoppingToken);
+                    await Task.Delay(1000, cancellationToken);
                 }
                 else
                 {
@@ -47,27 +52,25 @@ namespace CasCap.Services
                     //await Task.Delay(10, stoppingToken);
 
                     //which is fastest?
-                    _ = _redisCacheSvc.db.StreamAdd(Globals.streamKey, "GBPUSD", 1.5456);
+                    _ = _redisCacheSvc.db.StreamAdd(Globals.streamKey, nameof(price.symbol), price.symbol);
 
-                    _ = _redisCacheSvc.db.StreamAdd(Globals.streamKey, "GBPUSD", 1.5456, flags: CommandFlags.FireAndForget);
+                    _ = _redisCacheSvc.db.StreamAdd(Globals.streamKey, nameof(price.symbol), price.symbol, flags: CommandFlags.FireAndForget);
 
-                    _ = await _redisCacheSvc.db.StreamAddAsync(Globals.streamKey, "GBPUSD", 1.5456);
+                    _ = await _redisCacheSvc.db.StreamAddAsync(Globals.streamKey, nameof(price.symbol), price.symbol);
 
-                    _ = await _redisCacheSvc.db.StreamAddAsync(Globals.streamKey, "GBPUSD", 1.5456, flags: CommandFlags.FireAndForget);
+                    var streamPairs = new NameValueEntry[3]
+                    {
+                        new NameValueEntry("s", price.symbol),
+                        new NameValueEntry("b", price.bid),
+                        new NameValueEntry("a", price.offer)
+                    };
+                    _ = await _redisCacheSvc.db.StreamAddAsync(Globals.streamKey, streamPairs, flags: CommandFlags.FireAndForget);
                 }
                 counter++;
                 if (counter % 1000 == 0)
                     _logger.LogInformation("{counter} records at {utcNow}", counter, DateTime.UtcNow);
                 if (counter % 1_000_000 == 0)
                     break;
-
-                //todo: pass a strong-typed Tick object
-                void Test()
-                {
-                    while (!stoppingToken.IsCancellationRequested)
-                    {
-                    }
-                }
             }
         }
     }

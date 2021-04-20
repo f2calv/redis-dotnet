@@ -16,6 +16,7 @@ try
     Host.CreateDefaultBuilder(args)
         .ConfigureServices((hostContext, services) =>
         {
+            services.AddSingleton<IPriceGeneratorService, PriceGeneratorService>();
             services.AddSingleton<RedisCacheService>();
             services.AddHostedService<RedisPublisherService>();
         })
