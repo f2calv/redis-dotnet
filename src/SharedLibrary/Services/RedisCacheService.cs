@@ -48,9 +48,9 @@ namespace CasCap.Services
             return result;
         }
 
-        public byte[] Get(string key) => db.StringGet(key);
+        public byte[]? Get(string key) => db.StringGet(key);
 
-        public async Task<byte[]> GetAsync(string key) => await db.StringGetAsync(key);
+        public async Task<byte[]?> GetAsync(string key) => await db.StringGetAsync(key);
 
         public T? Get<T>(string key)
         {
@@ -88,7 +88,7 @@ namespace CasCap.Services
         {
             var val = db.StringGet(key);
             if (val.HasValue)
-                return (string)val;
+                return (string?)val;
             else
                 return null;
         }

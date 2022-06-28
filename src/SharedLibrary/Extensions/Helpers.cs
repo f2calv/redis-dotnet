@@ -9,7 +9,7 @@ namespace CasCap.Extensions
 
         public static string ToJSON(this object obj, Formatting formatting) => JsonConvert.SerializeObject(obj, formatting);
 
-        public static T FromJSON<T>(this string json)
+        public static T? FromJSON<T>(this string json)
         {
             try
             {
@@ -22,7 +22,7 @@ namespace CasCap.Extensions
             }
         }
 
-        public static T FromJSON<T>(this RedisValue result) => FromJSON<T>(result.ToString());
+        public static T? FromJSON<T>(this RedisValue result) => FromJSON<T>(result.ToString());
 
         public static byte[] ToMessagePack<T>(this T data) => MessagePackSerializer.Serialize(data);
 
