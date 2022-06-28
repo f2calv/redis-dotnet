@@ -14,8 +14,8 @@ namespace CasCap
     //https://benchmarkdotnet.org/articles/overview.html
     //[ClrJob, CoreJob]
     //[SimpleJob(RuntimeMoniker.CoreRt31, warmupCount: 5, targetCount: 5, baseline: true)]
-    //[SimpleJob(RuntimeMoniker.NetCoreApp50, warmupCount: 5, targetCount: 5)]
-    [SimpleJob(RuntimeMoniker.NetCoreApp50, targetCount: 1)]
+    //[SimpleJob(RuntimeMoniker.Net50, warmupCount: 5, targetCount: 5)]
+    [SimpleJob(RuntimeMoniker.Net60, targetCount: 1)]
     //[MemoryDiagnoser]
     [Config(typeof(FastAndDirtyConfig))]
     public class MyBenchmarks
