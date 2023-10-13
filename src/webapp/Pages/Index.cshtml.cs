@@ -1,21 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-namespace CasCap.Pages
+namespace CasCap.Pages;
+
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly ILogger<IndexModel> _logger;
+
+    public IndexModel(ILogger<IndexModel> logger)
     {
-        private readonly ILogger<IndexModel> _logger;
+        _logger = logger;
+    }
 
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
-
-        public void OnGet()
-        {
-            HttpContext.Session.SetString("name", "fred bloggs");
-            HttpContext.Session.SetInt32("age", 99);
-        }
+    public void OnGet()
+    {
+        HttpContext.Session.SetString("name", "fred bloggs");
+        HttpContext.Session.SetInt32("age", 99);
     }
 }
