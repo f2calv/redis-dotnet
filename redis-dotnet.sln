@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31025.218
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.34929.205
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webapi", "src\webapi\webapi.csproj", "{1793F390-22FE-4E32-8E2F-367EC01F6DE0}"
 EndProject
@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "serverapp", "src\serverapp\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "benchmarkapp", "src\benchmarkapp\benchmarkapp.csproj", "{3B29C8E9-56A4-4E47-8D58-123D57A025DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "webapp", "src\webapp\webapp.csproj", "{4D3DCE32-9B4B-4DC7-B878-FDB170A252A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "webapp", "src\webapp\webapp.csproj", "{4D3DCE32-9B4B-4DC7-B878-FDB170A252A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
