@@ -1,14 +1,12 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
-using CasCap.Extensions;
+using CasCap.Common.Extensions;
 using CasCap.Models;
 using CasCap.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Perfolizer.Horology;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 namespace CasCap;
 
 //https://benchmarkdotnet.org/articles/overview.html
@@ -121,9 +119,9 @@ public class MyBenchmarks
         for (var i = 0; i < maxIterations; i++)
         {
             _ = await _redisCacheSvc.db.KeyDeleteAsync(key);
-            _ = await _redisCacheSvc.db.StringSetAsync(key, obj.ToJSON());
-            var result = await _redisCacheSvc.db.StringGetAsync(key);
-            _ = result.FromJSON<MyObj>();
+            _ = await _redisCacheSvc.db.StringSetAsync(key, obj.ToJson());
+            string result = await _redisCacheSvc.db.StringGetAsync(key);
+            _ = result.FromJson<MyObj>();
         }
     }
 
@@ -137,7 +135,7 @@ public class MyBenchmarks
         {
             _ = await _redisCacheSvc.db.KeyDeleteAsync(key);
             _ = await _redisCacheSvc.db.StringSetAsync(key, obj.ToMessagePack());
-            var result = await _redisCacheSvc.db.StringGetAsync(key);
+            byte[] result = await _redisCacheSvc.db.StringGetAsync(key);
             _ = result.FromMessagePack<MyObj>();
         }
     }

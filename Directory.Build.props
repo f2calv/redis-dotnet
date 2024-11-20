@@ -1,7 +1,9 @@
 <Project>
+
   <PropertyGroup>
     <RootNamespace>CasCap</RootNamespace>
     <LangVersion>13.0</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
     <!--nullable we enable on a per project basis-->
     <!--<Nullable>enable</Nullable>-->
     <UserSecretsId>dotnet-clientapp1-12CAD65D-6E81-47A2-9769-94F84FD207FD</UserSecretsId>

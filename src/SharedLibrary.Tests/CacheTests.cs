@@ -1,13 +1,3 @@
-using CasCap.Extensions;
-using CasCap.Models;
-using CasCap.Services;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using StackExchange.Redis;
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using Xunit;
 namespace CasCap.Tests
 {
     public class CacheTests
@@ -70,11 +60,11 @@ namespace CasCap.Tests
             _ = await _redisCacheSvc.db.KeyDeleteAsync(key);
 
             var objOut = new MyObj($"{input} {DateTime.UtcNow}");
-            var jsonOut = objOut.ToJSON();
+            var jsonOut = objOut.ToJson();
             _ = await _redisCacheSvc.db.StringSetAsync(key, jsonOut);
             var result = await _redisCacheSvc.db.StringGetAsync(key);
             Assert.Equal(jsonOut, result);
-            Assert.Equal(objOut, result.FromJSON<MyObj>());
+            Assert.Equal(objOut, result.ToString().FromJson<MyObj>());
         }
 
         /// <summary>
@@ -92,8 +82,8 @@ namespace CasCap.Tests
             var objOut = new MyObj($"{input} {DateTime.UtcNow}");
             var jsonOut = objOut.ToMessagePack();
             _ = await _redisCacheSvc.db.StringSetAsync(key, jsonOut);
-            var result = await _redisCacheSvc.db.StringGetAsync(key);
-            Assert.Equal(jsonOut.Length, result.Length());
+            byte[] result = await _redisCacheSvc.db.StringGetAsync(key);
+            Assert.Equal(jsonOut.Length, result.Length);
             Assert.Equal(objOut, result.FromMessagePack<MyObj>());
         }
 

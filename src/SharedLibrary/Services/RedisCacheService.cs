@@ -1,13 +1,8 @@
-﻿using CasCap.Extensions;
-using Microsoft.Extensions.Logging;
-using StackExchange.Redis;
-using System;
-using System.Threading.Tasks;
-namespace CasCap.Services;
+﻿namespace CasCap.Services;
 
 public class RedisCacheService
 {
-    readonly ILogger _logger;
+    readonly Microsoft.Extensions.Logging.ILogger _logger;
 
     public RedisCacheService(ILogger<RedisCacheService> logger)
     {
@@ -37,14 +32,14 @@ public class RedisCacheService
     public bool Set<T>(string key, T value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)
     {
         _logger.LogTrace("Attempting to set redis cache key '{key}' to value '{value}' (expiry is {expiry})", key, value, expiry);
-        var result = db.StringSet(key, value?.ToJSON(), expiry, flags: flags);
+        var result = db.StringSet(key, value?.ToJson(), expiry, flags: flags);
         return result;
     }
 
     public async Task<bool> SetAsync<T>(string key, T value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)
     {
         _logger.LogTrace("Attempting to set redis cache key '{key}' to value '{value}' (expiry is {expiry})", key, value, expiry);
-        var result = await db.StringSetAsync(key, value?.ToJSON(), expiry, flags: flags);
+        var result = await db.StringSetAsync(key, value?.ToJson(), expiry, flags: flags);
         return result;
     }
 
@@ -56,7 +51,7 @@ public class RedisCacheService
     {
         var val = db.StringGet(key);
         if (val.HasValue)
-            return ((string)val).FromJSON<T>();
+            return ((string)val).FromJson<T>();
         else
             return default(T);
     }
@@ -65,7 +60,7 @@ public class RedisCacheService
     {
         var val = await db.StringGetAsync(key);
         if (val.HasValue)
-            return ((string)val).FromJSON<T>();
+            return ((string)val).FromJson<T>();
         else
             return default(T);
     }

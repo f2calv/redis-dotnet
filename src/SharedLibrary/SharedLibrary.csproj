@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CasCap.Common.Serialization.Json" />
+    <PackageReference Include="CasCap.Common.Serialization.MessagePack" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
@@ -13,13 +15,7 @@
     <PackageReference Include="Serilog.Extensions.Hosting" />
     <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="StackExchange.Redis" />
-    <PackageReference Include="Newtonsoft.Json" />
     <!--<PackageReference Include="System.Text.Json" />-->
-    <PackageReference Include="MessagePack" />
-    <PackageReference Include="MessagePackAnalyzer">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
 </Project>
