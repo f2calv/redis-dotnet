@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
-COPY ["Directory.Build.props", "."]
+COPY ["Directory.Build.props", "Directory.Packages.props", "./"]
 COPY ["src/webapi/webapi.csproj", "src/webapi/"]
 COPY ["src/SharedLibrary/SharedLibrary.csproj", "src/SharedLibrary/"]
 RUN dotnet restore "src/webapi/webapi.csproj"
