@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+	<PackageReference Include="CasCap.Common.Extensions" />
     <PackageReference Include="CasCap.Common.Serialization.Json" />
     <PackageReference Include="CasCap.Common.Serialization.MessagePack" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
