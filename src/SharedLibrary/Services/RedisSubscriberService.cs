@@ -1,6 +1,4 @@
-﻿
-
-namespace CasCap.Services;
+﻿namespace CasCap.Services;
 
 public class RedisSubscriberService : BackgroundService
 {
