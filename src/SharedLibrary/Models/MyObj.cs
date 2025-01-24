@@ -1,7 +1,4 @@
-﻿using MessagePack;
-using System;
-using System.Collections.Generic;
-namespace CasCap.Models;
+﻿namespace CasCap.Models;
 
 [MessagePackObject(true)]
 public class MyObj : IEquatable<MyObj?>

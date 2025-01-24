@@ -2,7 +2,6 @@ using CasCap.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using System;
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()

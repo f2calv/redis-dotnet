@@ -1,11 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-namespace CasCap.Services;
+﻿namespace CasCap.Services;
 
 public class RedisSubscriberService : BackgroundService
 {
@@ -77,9 +70,12 @@ public class RedisSubscriberService : BackgroundService
                         messageIds.Add(streamEntry.Id);
                         position = streamEntry.Id;
                     }
-                    var deletedCount = await _redisCacheSvc.db.StreamDeleteAsync(Globals.streamKey, messageIds.ToArray());
-                    _logger.LogInformation("{deletedCount} stream entries deleted, from {startPosition} -> {endPosition}",
-                        deletedCount, startPosition, position);
+                    if (messageIds.Any())
+                    {
+                        var deletedCount = await _redisCacheSvc.db.StreamDeleteAsync(Globals.streamKey, messageIds.ToArray());
+                        _logger.LogInformation("{deletedCount} stream entries deleted, from {startPosition} -> {endPosition}",
+                            deletedCount, startPosition, position);
+                    }
                     iteration++;
                 } while (info.LastEntry.Id != position);
             }

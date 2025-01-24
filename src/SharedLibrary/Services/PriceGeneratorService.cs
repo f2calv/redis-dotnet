@@ -1,12 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Channels;
-using System.Threading.Tasks;
-namespace CasCap.Services;
+﻿namespace CasCap.Services;
 
 /// <summary>
 /// Generates randomised stock price movements.
@@ -20,7 +12,7 @@ public interface IPriceGeneratorService
 
 public class PriceGeneratorService : IPriceGeneratorService
 {
-    readonly ILogger _logger;
+    readonly Microsoft.Extensions.Logging.ILogger _logger;
 
     public PriceGeneratorService(ILogger<PriceGeneratorService> logger) => _logger = logger;
 
