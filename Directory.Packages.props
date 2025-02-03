@@ -4,8 +4,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="BenchmarkDotNet" Version="0.14.0" />
-    <PackageVersion Include="CasCap.Common.Extensions" Version="4.2.8" />
-    <PackageVersion Include="CasCap.Common.Serialization.Json" Version="4.2.8" />
+    <PackageVersion Include="CasCap.Common.Extensions" Version="4.3.1" />
+    <PackageVersion Include="CasCap.Common.Serialization.Json" Version="4.3.1" />
     <PackageVersion Include="CasCap.Common.Serialization.MessagePack" Version="4.2.8" />
     <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.1" />
