@@ -1,14 +1,17 @@
 ﻿<Solution>
-  <Folder Name="/Solution Items/">
+  <Folder Name="/redis-dotnet/Solution Items/">
+    <File Path=".editorconfig" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
-  <Project Path="src/benchmarkapp/benchmarkapp.csproj" />
-  <Project Path="src/clientapp1/clientapp1.csproj" />
-  <Project Path="src/clientapp2/clientapp2.csproj" />
-  <Project Path="src/serverapp/serverapp.csproj" />
-  <Project Path="src/SharedLibrary.Tests/SharedLibrary.Tests.csproj" />
-  <Project Path="src/SharedLibrary/SharedLibrary.csproj" />
-  <Project Path="src/webapi/webapi.csproj" />
-  <Project Path="src/webapp/webapp.csproj" />
+  <Folder Name="/redis-dotnet/">
+    <Project Path="src/benchmarkapp/benchmarkapp.csproj" />
+    <Project Path="src/clientapp1/clientapp1.csproj" />
+    <Project Path="src/clientapp2/clientapp2.csproj" />
+    <Project Path="src/serverapp/serverapp.csproj" />
+    <Project Path="src/SharedLibrary.Tests/SharedLibrary.Tests.csproj" />
+    <Project Path="src/SharedLibrary/SharedLibrary.csproj" />
+    <Project Path="src/webapi/webapi.csproj" />
+    <Project Path="src/webapp/webapp.csproj" />
+  </Folder>
 </Solution>
