@@ -21,14 +21,14 @@ public class RedisPublisherService : BackgroundService
         {
             if (cancellationToken.IsCancellationRequested)
                 break;
-            if (false)
-            {
-                var message = $"{price.symbol} is {price.bid}/{price.offer} at {price.date}";
-                _logger.LogInformation("latest {symol} price sent at {utcNow}, {message}", price.symbol, DateTime.UtcNow, message);
-                _redisCacheSvc.subscriber.Publish("messages", message);
-                await Task.Delay(1000, cancellationToken);
-            }
-            else
+            //if (false)
+            //{
+            //    var message = $"{price.symbol} is {price.bid}/{price.offer} at {price.date}";
+            //    _logger.LogInformation("latest {symol} price sent at {utcNow}, {message}", price.symbol, DateTime.UtcNow, message);
+            //    _redisCacheSvc.subscriber.Publish("messages", message);
+            //    await Task.Delay(1000, cancellationToken);
+            //}
+            //else
             {
                 //var message = $"hello at {DateTime.UtcNow}";
                 //_logger.LogInformation("Message sent at {utcNow}, {message}", DateTime.UtcNow, message);
