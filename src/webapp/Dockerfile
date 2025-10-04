@@ -8,7 +8,9 @@ COPY . .
 
 RUN dotnet publish "src/webapp/webapp.csproj" -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:9.0
+#FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine AS final #missing tzdata?
+#FROM mcr.microsoft.com/dotnet/aspnet:9.0-noble-chiseled AS final
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 EXPOSE 80
