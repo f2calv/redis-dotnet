@@ -10,13 +10,13 @@ var result = 0;
 try
 {
     Log.Information("Starting {AppName}", AppDomain.CurrentDomain.FriendlyName);
-    Host.CreateDefaultBuilder(args)
+    await Host.CreateDefaultBuilder(args)
         .ConfigureWebHostDefaults(webBuilder =>
         {
             webBuilder.UseStartup<Startup>();
         })
         .UseSerilog()
-        .Build().Run();
+        .Build().RunAsync();
 }
 catch (Exception ex)
 {
