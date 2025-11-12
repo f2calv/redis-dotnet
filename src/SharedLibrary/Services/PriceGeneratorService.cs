@@ -12,11 +12,11 @@ public interface IPriceGeneratorService
 
 public class PriceGeneratorService : IPriceGeneratorService
 {
-    readonly Microsoft.Extensions.Logging.ILogger _logger;
+    private readonly Microsoft.Extensions.Logging.ILogger _logger;
 
     public PriceGeneratorService(ILogger<PriceGeneratorService> logger) => _logger = logger;
 
-    List<StockPrice> GetPrices
+    private List<StockPrice> GetPrices
     {
         get
         {
@@ -43,7 +43,7 @@ public class PriceGeneratorService : IPriceGeneratorService
     public async IAsyncEnumerable<StockPrice> GetPricesAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         var r = new Random();
-        _logger.LogInformation("starting {methodName}", nameof(GetPricesAsync));
+        _logger.LogInformation("starting {MethodName}", nameof(GetPricesAsync));
         //cancellationToken.ThrowIfCancellationRequested();
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -76,7 +76,7 @@ public class PriceGeneratorService : IPriceGeneratorService
         return stock;
     }
 
-    static List<StockPrice> stocks
+    private static List<StockPrice> stocks
     {
         get
         {

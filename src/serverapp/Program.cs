@@ -12,7 +12,7 @@ var result = 0;
 try
 {
     Log.Information("Starting {AppName}", AppDomain.CurrentDomain.FriendlyName);
-    Host.CreateDefaultBuilder(args)
+    await Host.CreateDefaultBuilder(args)
         .ConfigureServices((hostContext, services) =>
         {
             services.AddSingleton<IPriceGeneratorService, PriceGeneratorService>();
@@ -20,7 +20,7 @@ try
             services.AddHostedService<RedisPublisherService>();
         })
         .UseSerilog()
-        .Build().Run();
+        .Build().RunAsync();
 }
 catch (Exception ex)
 {
@@ -29,6 +29,6 @@ catch (Exception ex)
 }
 finally
 {
-    Log.CloseAndFlush();
+    await Log.CloseAndFlushAsync();
 }
 return result;

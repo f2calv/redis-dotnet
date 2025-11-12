@@ -27,13 +27,13 @@ services:
     image: redis
     #image: redis:alpine
     #image: bitnami/redis
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--appendonly", "yes"]
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf", "--appendonly", "yes" ]
     #entrypoint: redis-server /usr/local/etc/redis/redis.conf --appendonly yes
     ports:
       - 6379:6379
     volumes:
-      - ./.docker-compose/redis:/data
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./.docker/redis:/data
+      - ./.docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
     restart: always
 
   p3x:
@@ -41,7 +41,7 @@ services:
     ports:
       - 7843:7843
     volumes:
-      - ./.docker-compose/p3x-redis-ui-settings:/settings
+      - ./.docker/p3x-redis-ui-settings:/settings
     restart: always
     depends_on:
       - redis

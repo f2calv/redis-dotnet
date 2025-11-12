@@ -2,7 +2,7 @@ namespace CasCap.Tests
 {
     public class CacheTests
     {
-        readonly RedisCacheService _redisCacheSvc;
+        private readonly RedisCacheService _redisCacheSvc;
 
         public CacheTests()
         {

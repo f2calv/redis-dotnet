@@ -1,5 +1,5 @@
 using CasCap.Services;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 namespace CasCap;
 
