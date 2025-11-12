@@ -2,7 +2,7 @@
 
 public class RedisCacheService
 {
-    readonly Microsoft.Extensions.Logging.ILogger _logger;
+    private readonly Microsoft.Extensions.Logging.ILogger _logger;
 
     public RedisCacheService(ILogger<RedisCacheService> logger)
     {
@@ -17,9 +17,9 @@ public class RedisCacheService
         //LuaScripts = GetLuaScripts();
     }
 
-    static ConfigurationOptions configuration { get; set; } = new();
+    private static ConfigurationOptions configuration { get; set; } = new();
 
-    readonly Lazy<ConnectionMultiplexer> LazyConnection = new(() => ConnectionMultiplexer.Connect(configuration));
+    private readonly Lazy<ConnectionMultiplexer> LazyConnection = new(() => ConnectionMultiplexer.Connect(configuration));
 
     ConnectionMultiplexer Connection { get { return LazyConnection.Value; } }
 
@@ -31,21 +31,19 @@ public class RedisCacheService
 
     public bool Set<T>(string key, T value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)
     {
-        _logger.LogTrace("Attempting to set redis cache key '{key}' to value '{value}' (expiry is {expiry})", key, value, expiry);
+        _logger.LogTrace("Attempting to set redis cache key '{Key}' to value '{Value}' (expiry is {Expiry})", key, value, expiry);
         var result = db.StringSet(key, value?.ToJson(), expiry, flags: flags);
         return result;
     }
 
     public async Task<bool> SetAsync<T>(string key, T value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)
     {
-        _logger.LogTrace("Attempting to set redis cache key '{key}' to value '{value}' (expiry is {expiry})", key, value, expiry);
+        _logger.LogTrace("Attempting to set redis cache key '{Key}' to value '{Value}' (expiry is {Expiry})", key, value, expiry);
         var result = await db.StringSetAsync(key, value?.ToJson(), expiry, flags: flags);
         return result;
     }
 
     public byte[]? Get(string key) => db.StringGet(key);
-
-    public async Task<byte[]?> GetAsync(string key) => await db.StringGetAsync(key);
 
     public T? Get<T>(string key)
     {
@@ -55,6 +53,8 @@ public class RedisCacheService
         else
             return default(T);
     }
+
+    public async Task<byte[]?> GetAsync(string key) => await db.StringGetAsync(key);
 
     public async Task<T?> GetAsync<T>(string key)
     {
@@ -67,7 +67,7 @@ public class RedisCacheService
 
     bool Set(string key, string value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)
     {
-        _logger.LogTrace("Attempting to set redis cache key '{key}' to value '{value}' (expiry is {expiry})", key, value, expiry);
+        _logger.LogTrace("Attempting to set redis cache key '{Key}' to value '{Value}' (expiry is {Expiry})", key, value, expiry);
         //note: String is a Redis string type, not exactly a .NET string type!
         var result = db.StringSet(key, value, expiry, flags: flags);
         return result;

@@ -8,13 +8,13 @@ namespace CasCap.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    static readonly string[] Summaries = new[]
+    private static readonly string[] Summaries = new[]
     {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    readonly ILogger<WeatherForecastController> _logger;
-    readonly RedisCacheService _redisCacheSvc;
+    private readonly ILogger<WeatherForecastController> _logger;
+    private readonly RedisCacheService _redisCacheSvc;
 
     public WeatherForecastController(ILogger<WeatherForecastController> logger, RedisCacheService redisCacheSvc)
     {

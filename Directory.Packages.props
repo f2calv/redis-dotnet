@@ -3,23 +3,23 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="BenchmarkDotNet" Version="0.15.4" />
-    <PackageVersion Include="CasCap.Common.Extensions" Version="4.3.10" />
-    <PackageVersion Include="CasCap.Common.Serialization.Json" Version="4.3.10" />
-    <PackageVersion Include="CasCap.Common.Serialization.MessagePack" Version="4.3.10" />
-    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.9" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.9" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+    <PackageVersion Include="BenchmarkDotNet" Version="0.15.6" />
+    <PackageVersion Include="CasCap.Common.Extensions" Version="4.5.1" />
+    <PackageVersion Include="CasCap.Common.Serialization.Json" Version="4.5.1" />
+    <PackageVersion Include="CasCap.Common.Serialization.MessagePack" Version="4.5.1" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageVersion Include="Serilog" Version="4.3.0" />
     <PackageVersion Include="Serilog.Extensions.Hosting" Version="9.0.0" />
-    <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
-    <PackageVersion Include="StackExchange.Redis" Version="2.9.25" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
+    <PackageVersion Include="StackExchange.Redis" Version="2.9.32" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.0.1" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />

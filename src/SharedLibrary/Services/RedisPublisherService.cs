@@ -2,8 +2,8 @@
 
 public class RedisPublisherService : BackgroundService
 {
-    readonly ILogger<RedisPublisherService> _logger;
-    readonly RedisCacheService _redisCacheSvc;
+    private readonly ILogger<RedisPublisherService> _logger;
+    private readonly RedisCacheService _redisCacheSvc;
     public IPriceGeneratorService _priceGeneratorSvc;
 
     public RedisPublisherService(ILogger<RedisPublisherService> logger, RedisCacheService redisCacheSvc, IPriceGeneratorService priceGeneratorSvc)
@@ -13,13 +13,13 @@ public class RedisPublisherService : BackgroundService
         _priceGeneratorSvc = priceGeneratorSvc;
     }
 
-    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var counter = 0L;
 
-        await foreach (var price in _priceGeneratorSvc.GetPricesAsync(cancellationToken))
+        await foreach (var price in _priceGeneratorSvc.GetPricesAsync(stoppingToken))
         {
-            if (cancellationToken.IsCancellationRequested)
+            if (stoppingToken.IsCancellationRequested)
                 break;
             //if (false)
             //{
@@ -62,7 +62,7 @@ public class RedisPublisherService : BackgroundService
             }
             counter++;
             if (counter % 1000 == 0)
-                _logger.LogInformation("{counter} records at {utcNow}", counter, DateTime.UtcNow);
+                _logger.LogInformation("{Counter} records at {UtcNow}", counter, DateTime.UtcNow);
             if (counter % 1_000_000 == 0)
                 break;
         }

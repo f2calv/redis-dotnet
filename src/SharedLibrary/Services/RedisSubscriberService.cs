@@ -2,8 +2,8 @@
 
 public class RedisSubscriberService : BackgroundService
 {
-    readonly ILogger<RedisSubscriberService> _logger;
-    readonly RedisCacheService _redisCacheSvc;
+    private readonly ILogger<RedisSubscriberService> _logger;
+    private readonly RedisCacheService _redisCacheSvc;
 
     public RedisSubscriberService(ILogger<RedisSubscriberService> logger, RedisCacheService redisCacheSvc)
     {
@@ -33,7 +33,7 @@ public class RedisSubscriberService : BackgroundService
             var position = "0-0";
             var batchSize = 100;
             var info = await _redisCacheSvc.db.StreamInfoAsync(Globals.streamKey);
-            _logger.LogInformation("stream {streamName} information is {@streamInfo}", Globals.streamKey, info);
+            _logger.LogInformation("stream {StreamName} information is {@StreamInfo}", Globals.streamKey, info);
 
             //{
             //    //read a chunk from the stream
@@ -65,14 +65,14 @@ public class RedisSubscriberService : BackgroundService
                     foreach (var streamEntry in streamEntriesBatch)
                     {
                         foreach (var streamEntryValue in streamEntry.Values)
-                            _logger.LogDebug("iteration {iteration}, stream entry {Id}, data {Name}:{Value}", iteration, streamEntry.Id, streamEntryValue.Name, streamEntryValue.Value);
+                            _logger.LogDebug("iteration {Iteration}, stream entry {Id}, data {Name}:{Value}", iteration, streamEntry.Id, streamEntryValue.Name, streamEntryValue.Value);
                         messageIds.Add(streamEntry.Id);
                         position = streamEntry.Id;
                     }
                     if (messageIds.Any())
                     {
                         var deletedCount = await _redisCacheSvc.db.StreamDeleteAsync(Globals.streamKey, messageIds.ToArray());
-                        _logger.LogInformation("{deletedCount} stream entries deleted, from {startPosition} -> {endPosition}",
+                        _logger.LogInformation("{DeletedCount} stream entries deleted, from {StartPosition} -> {EndPosition}",
                             deletedCount, startPosition, position);
                     }
                     iteration++;
