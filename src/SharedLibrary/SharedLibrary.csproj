@@ -9,6 +9,7 @@
 	<PackageReference Include="CasCap.Common.Extensions" />
     <PackageReference Include="CasCap.Common.Serialization.Json" />
     <PackageReference Include="CasCap.Common.Serialization.MessagePack" />
+  <PackageReference Include="Microsoft.Extensions.Configuration" VersionOverride="10.0.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
