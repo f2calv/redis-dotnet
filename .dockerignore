@@ -1,26 +1,21 @@
-**/.classpath
-**/.dockerignore
-**/.env
-**/.git
-**/.gitignore
-**/.project
-**/.settings
-**/.toolstarget
-**/.vs
-**/.vscode
-**/*.*proj.user
-**/*.dbmdl
-**/*.jfm
-**/azds.yaml
+# Deny everything, then explicitly allow only what the build needs. Keeping the
+# build context minimal speeds up `docker build` and stops unrelated file edits
+# (docs, IDE state, .git) from invalidating cached layers. It also means a new
+# kind of local-only file cannot leak into the image by default.
+*
+
+!Directory.Build.props
+!Directory.Packages.props
+!src/**
+
+# Re-deny build output and local-only files that the src/** allow would otherwise
+# pull back in. Excluding bin/obj also keeps generated files (*.AssemblyInfo.cs,
+# *.GlobalUsings.g.cs) out of the context so they cannot bust the layer cache.
 **/bin
-**/charts
-**/docker-compose*
-**/Dockerfile*
-**/node_modules
-**/npm-debug.log
 **/obj
-**/secrets.dev.yaml
-**/values.dev.yaml
-infra
-LICENSE
-README.md
+**/*.user
+**/appsettings.Local*.json
+**/secrets.json
+
+# Test projects are never part of a runtime image.
+**/*.Tests
