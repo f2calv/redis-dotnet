@@ -1,12 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-echo "postStartCommand.sh"
-echo "-------------------"
+set -euo pipefail
 
-sudo apt-get update
-sudo apt-get upgrade -y
+echo "Development tool versions"
+echo "-------------------------"
 
 dotnet --version
-pre-commit autoupdate
-
-echo "Done"
+pre-commit --version

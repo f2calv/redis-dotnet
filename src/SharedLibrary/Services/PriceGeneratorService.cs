@@ -1,4 +1,6 @@
-﻿namespace CasCap.Services;
+﻿using CasCap.Common.Models;
+
+namespace CasCap.Services;
 
 /// <summary>
 /// Generates randomised stock price movements.
