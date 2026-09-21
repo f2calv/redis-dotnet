@@ -35,6 +35,8 @@ jobs:
     with:
       version: ${{ needs.versioning.outputs.version }}
       solution-name: redis-dotnet.slnx
+      test-compose-file: docker-compose.yml
+      test-compose-services: '["redis"]'
 
   release:
     needs: [lint, versioning, build]
