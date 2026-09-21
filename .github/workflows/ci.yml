@@ -31,7 +31,8 @@ jobs:
     needs: [versioning]
     permissions:
       contents: read
-    uses: f2calv/gha-workflows/.github/workflows/app-build-dotnet.yml@v1
+    #Feature ref validates the reusable Compose path before its v1 release; switch back after merge.
+    uses: f2calv/gha-workflows/.github/workflows/app-build-dotnet.yml@f2calv/2026-09-compose-test-services
     with:
       version: ${{ needs.versioning.outputs.version }}
       solution-name: redis-dotnet.slnx
