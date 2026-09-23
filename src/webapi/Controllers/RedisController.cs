@@ -8,12 +8,10 @@ namespace CasCap.Controllers;
 [Route("[controller]")]
 public class RedisController : ControllerBase
 {
-    private readonly ILogger<RedisController> _logger;
     private readonly RedisCacheService _redisCacheSvc;
 
-    public RedisController(ILogger<RedisController> logger, RedisCacheService redisCacheSvc)
+    public RedisController(RedisCacheService redisCacheSvc)
     {
-        _logger = logger;
         _redisCacheSvc = redisCacheSvc;
     }
 
