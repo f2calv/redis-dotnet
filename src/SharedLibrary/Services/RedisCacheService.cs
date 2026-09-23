@@ -49,7 +49,7 @@ public class RedisCacheService
     {
         var val = db.StringGet(key);
         if (val.HasValue)
-            return ((string)val).FromJson<T>();
+            return val.ToString().FromJson<T>();
         else
             return default(T);
     }
@@ -60,41 +60,9 @@ public class RedisCacheService
     {
         var val = await db.StringGetAsync(key);
         if (val.HasValue)
-            return ((string)val).FromJson<T>();
+            return val.ToString().FromJson<T>();
         else
             return default(T);
-    }
-
-    bool Set(string key, string value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)
-    {
-        _logger.LogTrace("Attempting to set redis cache key '{Key}' to value '{Value}' (expiry is {Expiry})", key, value, expiry);
-        //note: String is a Redis string type, not exactly a .NET string type!
-        var result = db.StringSet(key, value, GetExpiration(expiry), flags: flags);
-        return result;
-    }
-
-    async Task<bool> SetAsync(string key, byte[] value, TimeSpan? expiry = null, CommandFlags flags = CommandFlags.None)
-    {
-        var result = await db.StringSetAsync(key, value, GetExpiration(expiry), flags: flags);
-        return result;
-    }
-
-    string? GetString(string key)
-    {
-        var val = db.StringGet(key);
-        if (val.HasValue)
-            return (string?)val;
-        else
-            return null;
-    }
-
-    byte[]? GetBytes(string key)
-    {
-        var val = db.StringGet(key);
-        if (val.HasValue)
-            return (byte[])val;
-        else
-            return null;
     }
 
     private static Expiration GetExpiration(TimeSpan? expiry)

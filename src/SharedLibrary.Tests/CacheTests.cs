@@ -7,12 +7,10 @@ namespace CasCap.Tests
         public CacheTests()
         {
             var configuration = new ConfigurationBuilder()
-                //.AddInMemoryCollection()
                 .Build();
 
             //initiate ServiceCollection w/logging
             var services = new ServiceCollection()
-                //.AddSingleton<IConfiguration>(configuration)
                 .AddLogging(logging =>
                 {
                     //    logging.AddDebug();

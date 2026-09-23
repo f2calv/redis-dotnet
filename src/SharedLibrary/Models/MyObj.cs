@@ -24,7 +24,7 @@ public class MyObj : IEquatable<MyObj?>
         var hashCode = -1135332943;
         hashCode = hashCode * -1521134295 + id.GetHashCode();
         hashCode = hashCode * -1521134295 + date.GetHashCode();
-        hashCode = hashCode * -1521134295 + EqualityComparer<string?>.Default.GetHashCode(str);
+        hashCode = hashCode * -1521134295 + (str?.GetHashCode() ?? 0);
         return hashCode;
     }
 }
