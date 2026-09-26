@@ -28,7 +28,7 @@ ARG CONFIGURATION=Release
 COPY --parents Directory.Build.props Directory.Packages.props global.json src/**/*.csproj ./
 RUN --mount=type=cache,target=/root/.nuget/packages,sharing=locked \
     dotnet restore "src/$APP_NAME/$APP_NAME.csproj" \
-        "-p:RuntimeIdentifiers=\"linux-x64;linux-arm64;linux-arm\""
+    "-p:RuntimeIdentifiers=\"linux-x64;linux-arm64;linux-arm\""
 
 # -- Compile layer -------------------------------------------------------------
 # Test projects are excluded so a test edit never invalidates the publish layer.
