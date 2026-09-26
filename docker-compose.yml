@@ -1,45 +1,72 @@
+# =============================================================================
+# Local Redis services for the redis-dotnet samples.
+#
+#   docker compose up -d                     standalone Redis and the P3X web UI
+#   docker compose --profile cluster up -d   adds a master and replica pair
+#
+# Endpoints:
+#   Redis            : localhost:6379
+#   P3X Redis UI     : http://localhost:7843
+#   Redis master     : localhost:6329                [cluster profile]
+#
+# The sample applications connect to localhost:6379 and run from the IDE or with
+# `dotnet run`; they are not containerised here.
+# =============================================================================
+
 services:
-  # webapi:
-  #   build:
-  #     context: .
-  #     dockerfile: src/webapi/Dockerfile
-  #   ports:
-  #     - 8080:5000 #web ui
-  #   depends_on:
-  #     - redis
-  #   environment:
-  #     - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-  #     - DOTNET_RUNNING_IN_COMPOSE=${DOTNET_RUNNING_IN_COMPOSE}
-
-  # webapp:
-  #   build:
-  #     context: .
-  #     dockerfile: src/webapp/Dockerfile
-  #   ports:
-  #     - 8081:5000 #web ui
-  #   depends_on:
-  #     - redis
-  #   environment:
-  #     - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-  #     - DOTNET_RUNNING_IN_COMPOSE=${DOTNET_RUNNING_IN_COMPOSE}
-
   redis:
-    image: redis
-    #image: redis:alpine
-    #image: bitnami/redis
+    image: redis:8.10
     command: [ "redis-server", "--appendonly", "yes" ]
     ports:
       - 6379:6379
     volumes:
-      - ./.docker/redis:/data
-    restart: always
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
 
   p3x:
-    image: patrikx3/p3x-redis-ui
+    image: patrikx3/p3x-redis-ui:2026.10.100
     ports:
       - 7843:7843
     volumes:
-      - ./.docker/p3x-redis-ui-settings:/settings
-    restart: always
+      - p3x_settings:/settings
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  redis-master:
+    profiles: [ cluster ]
+    image: redis:8.10
+    command: [ "redis-server", "--appendonly", "yes" ]
+    ports:
+      - 6329:6379
+    volumes:
+      - redis_master_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  redis-replica:
+    profiles: [ cluster ]
+    image: redis:8.10
+    command: [ "redis-server", "--replicaof", "redis-master", "6379" ]
+    volumes:
+      - redis_replica_data:/data
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+  p3x_settings:
+  redis_master_data:
+  redis_replica_data:

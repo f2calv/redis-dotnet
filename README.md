@@ -37,10 +37,11 @@ Connect with the Redis CLI without relying on a generated container name:
 docker compose exec redis redis-cli
 ```
 
-The separate replication example is in `docker-compose.cluster.yml`:
+The replication example, a master on `localhost:6329` and one replica, runs behind the `cluster`
+profile:
 
 ```pwsh
-docker compose -f .\docker-compose.cluster.yml up -d
+docker compose --profile cluster up -d
 ```
 
 Restore and build the .NET projects:
